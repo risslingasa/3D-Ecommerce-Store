@@ -1,6 +1,8 @@
 {
-  "name": "BUNTO°",
+  "name": "Ecommerce Shop",
   "description": "Premium organic-cotton basics for ages 1–6: rompers, dungarees, tees, cardigans and hats in soft peach, pink, sage and butter.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

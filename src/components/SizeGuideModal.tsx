@@ -55,7 +55,7 @@ export function SizeGuideModal() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="BUNTO° Size & Fit Guide"
+      aria-label="LUNO® Size & Fit Guide"
       className="fixed inset-0 z-[80] bg-[#3E3A3C]/40 backdrop-blur-[2px] flex items-center justify-center p-4 md:p-8 overflow-y-auto"
       onClick={closeSizeGuide}
     >
@@ -67,7 +67,7 @@ export function SizeGuideModal() {
         <div className="sticky top-0 z-10 flex items-center justify-between px-6 md:px-8 h-16 bg-[#F9F2E9] border-b border-[#E6D9D2]">
           <div>
             <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#716D71]">
-              BUNTO° Sizing · Ages 1–6
+              LUNO® Sizing · Ages 1–6
             </p>
             <h2 className="text-lg font-medium tracking-tight text-[#3E3A3C]">
               {contextProduct
@@ -225,7 +225,7 @@ export function SizeGuideModal() {
                 Between Sizes?
               </p>
               <p className="mt-1.5">
-                All BUNTO° cotton knits are pre-washed for minimal shrinkage. If
+                All LUNO® cotton knits are pre-washed for minimal shrinkage. If
                 your child is near the top of a height range, size up—our rolled
                 dungaree cuffs and cardigan sleeves are cut to fold neatly.
               </p>

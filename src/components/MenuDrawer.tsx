@@ -52,7 +52,7 @@ export function MenuDrawer() {
         <div>
           <div className="flex items-center justify-between pb-6 border-b border-[#E6D9D2]">
             <span className="text-xl font-bold tracking-[-0.035em] text-[#3E3A3C]">
-              BUNTO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">°</sup>
+              LUNO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">®</sup>
             </span>
             <button
               type="button"

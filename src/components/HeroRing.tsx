@@ -726,7 +726,7 @@ export function HeroRing() {
     <section
       ref={heroRef}
       className={`bunto-hero ${openIndex !== null ? 'detail' : ''}`}
-      aria-label="BUNTO° Rotating Garment Showcase"
+      aria-label="LUNO® Rotating Garment Showcase"
     >
       {/* 1. Logo (top-left) */}
       <a
@@ -739,7 +739,7 @@ export function HeroRing() {
         }}
         className="hero-logo"
       >
-        BUNTO<sup>°</sup>
+        LUNO<sup>®</sup>
       </a>
 
       {/* 2. Tagline (top-centre) */}

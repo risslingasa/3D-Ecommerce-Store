@@ -46,7 +46,7 @@ export function StickyHeader() {
           }}
           className="text-xl font-bold tracking-[-0.035em] text-[#3E3A3C] whitespace-nowrap shrink-0"
         >
-          BUNTO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">°</sup>
+          LUNO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">®</sup>
         </a>
 
         {/* Zone 2: Clean single-line navigation links */}

@@ -198,8 +198,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const ensureUserProfile = useCallback(async (u: User) => {
     const userPath = `users/${u.uid}`;
     const userRef = doc(db, 'users', u.uid);
-    const displayName = (u.displayName || 'BUNTO Customer').trim().slice(0, 100);
-    const email = (u.email || 'customer@bunto.store').trim().slice(0, 254);
+    const displayName = (u.displayName || 'LUNO Customer').trim().slice(0, 100);
+    const email = (u.email || 'customer@luno.store').trim().slice(0, 254);
 
     try {
       const snap = await getDoc(userRef);

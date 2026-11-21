@@ -151,7 +151,7 @@ export const PRODUCTS: GarmentProduct[] = [
       'Multi-row stitched brim holds a gentle sun-shielding curve',
       'Unlined breathable crown with neat taped interior seams',
       'Crushable and packable without permanent creasing',
-      'Garment-dyed in matching BUNTO° palette tones',
+      'Garment-dyed in matching LUNO® palette tones',
     ],
   },
 ];

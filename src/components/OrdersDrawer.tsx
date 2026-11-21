@@ -59,7 +59,7 @@ export function OrdersDrawer() {
           {!user ? (
             <div className="h-full flex flex-col items-center justify-center text-center py-12">
               <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#716D71]">
-                BUNTO° Customer Account
+                LUNO® Customer Account
               </p>
               <p className="mt-3 text-sm text-[#716D71] max-w-[30ch] leading-relaxed">
                 Sign in with Google to keep your shopping bag synced across
@@ -80,7 +80,7 @@ export function OrdersDrawer() {
               <div className="flex items-center justify-between pb-5 border-b border-[#E6D9D2]">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-[#3E3A3C] truncate">
-                    {user.displayName || 'BUNTO Customer'}
+                    {user.displayName || 'LUNO Customer'}
                   </p>
                   <p className="text-xs text-[#716D71] truncate">{user.email}</p>
                 </div>

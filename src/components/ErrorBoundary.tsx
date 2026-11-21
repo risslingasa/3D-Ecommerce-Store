@@ -19,7 +19,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error('BUNTO° ErrorBoundary caught:', error, info);
+    console.error('LUNO® ErrorBoundary caught:', error, info);
   }
 
   render() {
@@ -28,7 +28,7 @@ export class ErrorBoundary extends React.Component<
         <div className="min-h-screen flex items-center justify-center bg-[#F9F2E9] text-[#3E3A3C] px-6">
           <div className="max-w-md w-full border border-[#E6D9D2] p-8 text-center">
             <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-[#716D71]">
-              BUNTO°
+              LUNO®
             </p>
             <h1 className="mt-4 text-2xl font-medium tracking-tight">
               Something went out of place

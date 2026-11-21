@@ -22,7 +22,7 @@ export function CraftSection() {
               Fewer pieces, heavier yarn, softer mornings.
             </h2>
             <p className="text-[15px] leading-[1.7] text-[#716D71] max-w-[54ch]">
-              Every BUNTO° garment is knitted or woven from 100% GOTS-certified
+              Every LUNO® garment is knitted or woven from 100% GOTS-certified
               organic cotton, garment-dyed in small batches across our four
               signature mineral hues, and finished with natural wooden buttons
               and turn-up cuffs that stretch an extra season of wear.
@@ -95,7 +95,7 @@ export function CraftSection() {
         <div className="max-w-[1320px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>
             <p className="text-xl font-bold tracking-[-0.035em] text-[#3E3A3C]">
-              BUNTO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">°</sup>
+              LUNO<sup className="text-[0.5em] font-medium align-[0.9em] ml-[0.04em]">®</sup>
             </p>
             <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.3em] text-[#716D71]">
               Soft things for small people · Ages 1–6

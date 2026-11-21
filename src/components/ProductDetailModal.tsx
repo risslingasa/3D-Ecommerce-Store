@@ -110,7 +110,7 @@ export function ProductDetailModal() {
         {/* Top Close Strip */}
         <div className="sticky top-0 z-20 flex items-center justify-between px-6 md:px-10 h-14 bg-[#F9F2E9]/95 backdrop-blur-sm border-b border-[#E6D9D2]">
           <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#716D71]">
-            BUNTO° · {product.category}
+            LUNO® · {product.category}
           </span>
           <button
             type="button"
