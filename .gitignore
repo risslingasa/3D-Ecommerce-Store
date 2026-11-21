@@ -4,5 +4,17 @@ dist/
 coverage/
 .DS_Store
 *.log
+
+# Private environment files & local secrets (keep .env.example tracked as a template)
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
 .env*
 !.env.example
+*.pem
+*.key
