@@ -11,6 +11,7 @@ export function OrdersDrawer() {
     signInWithGoogle,
     logOut,
     authBusy,
+    authError,
     orders,
     ordersLoading,
     addToCart,
@@ -71,8 +72,24 @@ export function OrdersDrawer() {
                 onClick={() => void signInWithGoogle()}
                 className="mt-6 py-3 px-6 bg-[#3E3A3C] text-[#F9F2E9] text-[11px] font-medium uppercase tracking-[0.26em] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
               >
-                {authBusy ? 'Signing In…' : 'Sign In with Google'}
+                {authBusy ? 'Opening Google Sign-In…' : 'Sign In with Google'}
               </button>
+              {authError && (
+                <div
+                  role="alert"
+                  className="mt-5 w-full max-w-sm p-4 bg-[#F3EAE0] border border-[#E6D9D2] text-left text-xs text-[#3E3A3C] leading-relaxed"
+                >
+                  <p>{authError}</p>
+                  <button
+                    type="button"
+                    disabled={authBusy}
+                    onClick={() => void signInWithGoogle()}
+                    className="mt-2.5 border-b border-[#3E3A3C] pb-0.5 text-[10px] font-medium uppercase tracking-[0.24em] cursor-pointer"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-8">

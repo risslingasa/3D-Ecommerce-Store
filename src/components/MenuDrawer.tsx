@@ -11,6 +11,8 @@ export function MenuDrawer() {
     setOrdersOpen,
     totalCount,
     user,
+    authBusy,
+    authError,
     signInWithGoogle,
     logOut,
   } = useStore();
@@ -137,16 +139,38 @@ export function MenuDrawer() {
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setMenuOpen(false);
-                void signInWithGoogle();
-              }}
-              className="w-full py-3 px-4 border border-[#3E3A3C] text-[10px] font-medium uppercase tracking-[0.28em] text-[#3E3A3C] hover:bg-[#3E3A3C] hover:text-[#F9F2E9] transition-colors cursor-pointer"
-            >
-              Sign In with Google
-            </button>
+            <div className="space-y-3">
+              <button
+                type="button"
+                disabled={authBusy}
+                onClick={async () => {
+                  const signedIn = await signInWithGoogle();
+                  if (signedIn) setMenuOpen(false);
+                }}
+                className="w-full py-3 px-4 border border-[#3E3A3C] text-[10px] font-medium uppercase tracking-[0.28em] text-[#3E3A3C] hover:bg-[#3E3A3C] hover:text-[#F9F2E9] transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {authBusy ? 'Opening Google Sign-In…' : 'Sign In with Google'}
+              </button>
+              {authError && (
+                <div
+                  role="alert"
+                  className="p-3 bg-[#F3EAE0] border border-[#E6D9D2] text-xs text-[#3E3A3C] leading-relaxed"
+                >
+                  <p>{authError}</p>
+                  <button
+                    type="button"
+                    disabled={authBusy}
+                    onClick={async () => {
+                      const signedIn = await signInWithGoogle();
+                      if (signedIn) setMenuOpen(false);
+                    }}
+                    className="mt-2 border-b border-[#3E3A3C] pb-0.5 text-[10px] font-medium uppercase tracking-[0.24em] cursor-pointer"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </aside>

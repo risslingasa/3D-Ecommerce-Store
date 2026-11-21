@@ -77,17 +77,18 @@ export function StickyHeader() {
           </button>
           <button
             type="button"
-            onClick={() => {
+            onClick={async () => {
               if (user) {
                 setOrdersOpen(true);
               } else {
-                void signInWithGoogle();
+                const signedIn = await signInWithGoogle();
+                if (!signedIn) setOrdersOpen(true);
               }
             }}
             disabled={authBusy}
             className="hover:text-[#3E3A3C] transition-colors whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50"
           >
-            {user ? 'Orders' : 'Sign In'}
+            {user ? 'Orders' : authBusy ? 'Signing In…' : 'Sign In'}
           </button>
         </nav>
 

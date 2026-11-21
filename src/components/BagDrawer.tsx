@@ -307,13 +307,31 @@ export function BagDrawer() {
                       }}
                       className="w-full py-3.5 px-6 bg-[#3E3A3C] text-[#F9F2E9] text-[11px] font-medium uppercase tracking-[0.26em] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
                     >
-                      {authBusy ? 'Signing In…' : 'Sign In with Google to Checkout'}
+                      {authBusy
+                        ? 'Opening Google Sign-In…'
+                        : 'Sign In with Google to Checkout'}
                     </button>
                     <p className="text-[11px] text-[#716D71] text-center">
                       Your bag syncs automatically and saves receipts to Order History.
                     </p>
                     {authError && (
-                      <p className="text-xs text-red-700 text-center">{authError}</p>
+                      <div
+                        role="alert"
+                        className="p-3 bg-[#F3EAE0] border border-[#E6D9D2] text-xs text-[#3E3A3C] leading-relaxed"
+                      >
+                        <p>{authError}</p>
+                        <button
+                          type="button"
+                          disabled={authBusy}
+                          onClick={async () => {
+                            const signedIn = await signInWithGoogle();
+                            if (signedIn) setStep('checkout');
+                          }}
+                          className="mt-2 border-b border-[#3E3A3C] pb-0.5 text-[10px] font-medium uppercase tracking-[0.24em] cursor-pointer"
+                        >
+                          Try Again
+                        </button>
+                      </div>
                     )}
                   </div>
                 ) : (

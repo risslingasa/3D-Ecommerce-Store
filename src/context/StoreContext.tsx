@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
+  getRedirectResult,
   onAuthStateChanged,
   signInWithPopup,
   signOut,
@@ -21,6 +22,7 @@ import {
 } from 'firebase/firestore';
 import {
   auth,
+  browserPopupRedirectResolver,
   db,
   googleProvider,
   handleFirestoreError,
@@ -86,6 +88,7 @@ interface StoreContextValue {
   authReady: boolean;
   authBusy: boolean;
   authError: string | null;
+  clearAuthError: () => void;
   signInWithGoogle: () => Promise<User | null>;
   logOut: () => Promise<void>;
 
@@ -263,17 +266,23 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     saveGuestCart([]);
   }, []);
 
-  // Auth listener
+  // Auth listener + redirect result recovery
   useEffect(() => {
+    void getRedirectResult(auth).catch((err) => {
+      console.error('Google redirect resolution error:', err);
+    });
+
     const unsub = onAuthStateChanged(auth, async (nextUser) => {
       setUser(nextUser);
       setAuthReady(true);
       if (nextUser) {
+        setAuthError(null);
         try {
           await ensureUserProfile(nextUser);
           await mergeGuestCartIntoFirestore(nextUser.uid);
         } catch (err) {
           console.error('Failed syncing user profile:', err);
+          showToast('Signed in, but could not sync saved bag right now.');
         }
       } else {
         setProfileReadyUid(null);
@@ -282,7 +291,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       }
     });
     return () => unsub();
-  }, [ensureUserProfile, mergeGuestCartIntoFirestore]);
+  }, [ensureUserProfile, mergeGuestCartIntoFirestore, showToast]);
 
   // Firestore real-time cart & orders listeners (only when authenticated & profile ready)
   useEffect(() => {
@@ -362,19 +371,55 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     };
   }, [authReady, user, profileReadyUid]);
 
+  const clearAuthError = useCallback(() => {
+    setAuthError(null);
+  }, []);
+
   const signInWithGoogle = useCallback(async () => {
+    // Call signInWithPopup synchronously first to preserve browser user-gesture activation
+    const popupPromise = signInWithPopup(
+      auth,
+      googleProvider,
+      browserPopupRedirectResolver
+    );
     setAuthBusy(true);
     setAuthError(null);
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await popupPromise;
       showToast(`Signed in as ${result.user.displayName || result.user.email}`);
       return result.user;
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Unable to complete sign-in.';
-      if (!message.includes('popup-closed-by-user')) {
-        setAuthError('Sign-in could not be completed. Please allow popups and try again.');
+    } catch (error: unknown) {
+      const firebaseErr = error as { code?: string; message?: string };
+      const code = firebaseErr?.code || '';
+      console.error('Google Sign-In error:', code, error);
+
+      if (code === 'auth/popup-closed-by-user') {
+        showToast('Google Sign-In window was closed before finishing.');
+        return null;
       }
+
+      let friendly = 'Unable to complete Google Sign-In. Please allow popups and try again.';
+      if (code === 'auth/popup-blocked') {
+        friendly =
+          'Your browser blocked the Google Sign-In popup. Allow popups for this site in your address bar, then click Try Again.';
+      } else if (code === 'auth/unauthorized-domain') {
+        const host = window.location.hostname || 'this domain';
+        friendly = `Google Sign-In is not yet authorized for "${host}". Add this domain in Firebase Console → Authentication → Settings → Authorized domains.`;
+      } else if (code === 'auth/operation-not-allowed') {
+        friendly =
+          'Google Sign-In is disabled for this Firebase project. Enable the Google provider in Firebase Console → Authentication.';
+      } else if (code === 'auth/cancelled-popup-request') {
+        friendly =
+          'A sign-in popup is already open. Check your browser windows or click Try Again.';
+      } else if (code === 'auth/network-request-failed') {
+        friendly =
+          'Network error contacting Google Sign-In. Check your connection and try again.';
+      } else if (code) {
+        friendly = `Google Sign-In failed (${code}). Please allow popups and try again.`;
+      }
+
+      setAuthError(friendly);
+      showToast(friendly);
       return null;
     } finally {
       setAuthBusy(false);
@@ -651,6 +696,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     authReady,
     authBusy,
     authError,
+    clearAuthError,
     signInWithGoogle,
     logOut,
     cart,

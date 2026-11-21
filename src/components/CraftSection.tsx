@@ -125,11 +125,12 @@ export function CraftSection() {
             </button>
             <button
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (user) {
                   setOrdersOpen(true);
                 } else {
-                  void signInWithGoogle();
+                  const signedIn = await signInWithGoogle();
+                  if (!signedIn) setOrdersOpen(true);
                 }
               }}
               className="hover:text-[#3E3A3C] transition-colors whitespace-nowrap cursor-pointer"
