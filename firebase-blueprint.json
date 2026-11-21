@@ -1,0 +1,202 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private customer profile storing basic Google Auth identity metadata.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the customer."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Customer display name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 254,
+          "description": "Customer email address."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was last updated."
+        }
+      },
+      "required": ["uid", "displayName", "email", "createdAt", "updatedAt"]
+    },
+    "CartItem": {
+      "title": "CartItem",
+      "description": "A garment line item in a customer's persisted shopping bag.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner UID matching parent user path."
+        },
+        "productId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Catalog slug identifier for the garment."
+        },
+        "col": {
+          "type": "integer",
+          "description": "Sprite sheet column index (0-4)."
+        },
+        "row": {
+          "type": "integer",
+          "description": "Sprite sheet row colourway index (0-3)."
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Garment silhouette name."
+        },
+        "colourName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "enum": ["Peach", "Pink", "Sage", "Butter"],
+          "description": "Selected colourway name."
+        },
+        "size": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "description": "Selected child age size."
+        },
+        "unitPrice": {
+          "type": "number",
+          "description": "Unit price in USD."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Line item quantity (1-20)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when added."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated."
+        }
+      },
+      "required": [
+        "userId",
+        "productId",
+        "col",
+        "row",
+        "kind",
+        "colourName",
+        "size",
+        "unitPrice",
+        "quantity",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "An immutable confirmed customer order with bounded line items and shipping details.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner UID matching parent user path."
+        },
+        "orderNumber": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 24,
+          "pattern": "^BNT-[0-9]{4,8}$",
+          "description": "Human-readable order reference number."
+        },
+        "items": {
+          "type": "array",
+          "description": "Bounded list of 1 to 20 purchased garment line items."
+        },
+        "itemCount": {
+          "type": "integer",
+          "description": "Total number of garment units in the order."
+        },
+        "subtotal": {
+          "type": "number",
+          "description": "Order subtotal before shipping."
+        },
+        "shipping": {
+          "type": "number",
+          "description": "Shipping cost in USD."
+        },
+        "total": {
+          "type": "number",
+          "description": "Total charged amount in USD."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed"],
+          "description": "Order status set to confirmed at placement."
+        },
+        "shippingInfo": {
+          "type": "object",
+          "description": "Shipping recipient name and postal address."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the order was confirmed."
+        }
+      },
+      "required": [
+        "userId",
+        "orderNumber",
+        "items",
+        "itemCount",
+        "subtotal",
+        "shipping",
+        "total",
+        "status",
+        "shippingInfo",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private customer profile documents keyed by Firebase Auth UID."
+    },
+    "/users/{userId}/cart/{lineId}": {
+      "schema": { "$ref": "#/entities/CartItem" },
+      "description": "Customer shopping bag items keyed by garment-colour-size composite ID."
+    },
+    "/users/{userId}/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Immutable customer order receipts."
+    }
+  }
+}
